@@ -15,4 +15,5 @@ To-do list
 ❌ Start aguments
 ✔️ Choose start and finish ports
 ✔️ Clean Console look Ascii text
+❌ Rewrite the type of scanning
 ```
