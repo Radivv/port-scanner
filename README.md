@@ -1,18 +1,27 @@
 
 # Port Scanner C#
+Modern port scanner created by Radiv
 
 
 
-## Installation
 
-To-do list
 
+## Features
+- Multithreading
+- Choosing port to scan
+- Exporting successful scan to file
+
+
+
+## Scanning types:
 ```bash
-✔️ Multithreading
-✔️ Loading from file
-✔️ File exporting
-❌ UI Version
-✔️ Choose start and finish ports
-✔️ Clean Console look Ascii text
-✔️ Rewrite the type of scanning
+[1] Ports list from ports.txt
+[2] Most popular safety ports
+[3] Every possible ports to scan
+[4] Choosing start and finish port
+
 ```
+## Authors
+
+- [@Radivv](https://github.com/Radivv)
+
