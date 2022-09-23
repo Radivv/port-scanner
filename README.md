@@ -13,6 +13,6 @@ To-do list
 ✔️ File exporting
 ❌ UI Version
 ❌ Start aguments
-❌ Choose start and finish ports
-❌ Clean Console look Ascii text
+✔️ Choose start and finish ports
+✔️ Clean Console look Ascii text
 ```
