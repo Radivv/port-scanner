@@ -8,9 +8,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
+//.----.  .----. .----.  .---.     .----. .---.   .--.  .-. .-..-. .-..----..----.
+//| {}  }/  {}  \| {}  }{_   _}   { {__  /  ___} / {} \ |  `| ||  `| || {_  | {}  }
+//| .--' \      /| .-. \  | |     .-._} }\     }/  /\  \| |\  || |\  || {__ | .-. \
+//`-'     `----' `-' `-'  `-'     `----'  `---' `-'  `-'`-' `-'`-' `-'`----'`-' `-'
+// github.com/Radivv/port-scanner
+
 namespace port_scanner
 {
-
     enum types
     { 
         none = 0,
@@ -40,12 +46,12 @@ namespace port_scanner
 
         public static void ThreadingStart()
         {
-            for (int s = 0; s <= threads; s++) // multithreading
+            for (int s = 0; s <= threads; s++) // Multithreading
             {
                 if (last_Value < port_List.Count())
                 {
                     int val = port_List[last_Value];
-                    Thread thr1 = new Thread(() => PortScan(IP, val));
+                    Thread thr1 = new Thread(() => PortScan(IP, val)); // Port scanning
                     thr1.Start();
                     last_Value++;
                     Console.Title = $"[!] Port Scanner Ip:{IP} Scaned: {last_Value}/{port_List.Count().ToString()}";
@@ -55,7 +61,7 @@ namespace port_scanner
 
         public static void Main(string[] args)
         {
-            Console.WriteLine(types.everyPorts);
+
             Console.Title = "[!] Port Scanner";
             Console.WriteLine("\r\n.----.  .----. .----.  .---.     .----. .---.   .--.  .-. .-..-. .-..----..----. \r\n| {}  }/  {}  \\| {}  }{_   _}   { {__  /  ___} / {} \\ |  `| ||  `| || {_  | {}  }\r\n| .--' \\      /| .-. \\  | |     .-._} }\\     }/  /\\  \\| |\\  || |\\  || {__ | .-. \\\r\n`-'     `----' `-' `-'  `-'     `----'  `---' `-'  `-'`-' `-'`-' `-'`----'`-' `-'\r\n");
             Console.WriteLine("Modern port scanner created by Radiv\ngithub.com/Radivv/port-scanner\n");
@@ -65,7 +71,7 @@ namespace port_scanner
             {
                 ThreadingStart();
             }
-            File.WriteAllLines("export.txt", output);
+            File.WriteAllLines("export.txt", output); // Exporting the succes connection to export.txt near the .exe
             Console.ReadKey();
             Console.WriteLine("\n");
         }
@@ -79,12 +85,12 @@ namespace port_scanner
 
             Console.WriteLine("Type of Ports:\n1 - Ports from port.txt \n2 - The most popular safety \n3 - Every 0-65.536\n4 - Start and Finish port");
             repeat:
-            int selected_Type = Convert.ToInt32(Console.ReadLine());
+            int selected_Type = Convert.ToInt32(Console.ReadLine()); // Choosing scan type
             switch (selected_Type)
             {
                 default:
                     {
-                        Console.WriteLine("[!] Problem with selecting scanning type...");
+                        Console.WriteLine("[!] Problem with selecting scanning type..."); // Selected value is over the limit
                         Console.WriteLine("[!] Try once again");
                         goto repeat;
                     }
@@ -153,9 +159,23 @@ namespace port_scanner
                 case types.portsStartFinish:
                     {
                         Console.WriteLine($"[!] Write the start port");
+                        repeats:
                         start_Port = Convert.ToInt32(Console.ReadLine());
+                        if (start_Port < 0) // Start port is over the limit
+                        {
+                            Console.WriteLine($"[!] The port is over the limit minimum size is 0");
+                            Console.WriteLine($"[!] Write the start port once again!");
+                            goto repeats;
+                        }
                         Console.WriteLine($"[!] Write the finish port");
+                        repeatf:
                         finish_Port = Convert.ToInt32(Console.ReadLine());
+                        if (finish_Port > 65535) // Finish port is over the limit
+                        {
+                            Console.WriteLine($"[!] The port is over the limit max size is 65.535");
+                            Console.WriteLine($"[!] Write the finish port once again!");
+                            goto repeatf;
+                        }
                         Console.WriteLine("");
 
 
@@ -166,7 +186,7 @@ namespace port_scanner
                     }
                     break;
             }
-            if (threads >= port_List.Count())
+            if (threads >= port_List.Count()) // Selected threads are over the limit
             {
                 Console.WriteLine("[!] The number of threads is greater than the number of ports, the maximum possible value has been set\n");
                 threads = port_List.Count();
@@ -184,7 +204,7 @@ namespace port_scanner
             }
             catch
             {
-
+                // nothing
             }
         }
     }
