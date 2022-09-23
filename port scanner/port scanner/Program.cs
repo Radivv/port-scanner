@@ -10,6 +10,16 @@ using System.Threading.Tasks;
 
 namespace port_scanner
 {
+
+    enum types
+    { 
+        none = 0,
+        portsFromTxt = 1,
+        usefulPorts = 2,
+        everyPorts = 3,
+        portsStartFinish = 4,
+    }
+
     internal class Program
     {
         private static string IP = "";
@@ -18,7 +28,7 @@ namespace port_scanner
 
         private static int finish_Port = 0;
 
-        private static int type = 0;
+        private static types type;
 
         public static int threads = 0;
 
@@ -45,6 +55,7 @@ namespace port_scanner
 
         public static void Main(string[] args)
         {
+            Console.WriteLine(types.everyPorts);
             Console.Title = "[!] Port Scanner";
             Console.WriteLine("\r\n.----.  .----. .----.  .---.     .----. .---.   .--.  .-. .-..-. .-..----..----. \r\n| {}  }/  {}  \\| {}  }{_   _}   { {__  /  ___} / {} \\ |  `| ||  `| || {_  | {}  }\r\n| .--' \\      /| .-. \\  | |     .-._} }\\     }/  /\\  \\| |\\  || |\\  || {__ | .-. \\\r\n`-'     `----' `-' `-'  `-'     `----'  `---' `-'  `-'`-' `-'`-' `-'`----'`-' `-'\r\n");
             Console.WriteLine("Modern port scanner created by Radiv\ngithub.com/Radivv/port-scanner\n");
@@ -67,61 +78,93 @@ namespace port_scanner
             threads = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Type of Ports:\n1 - Ports from port.txt \n2 - The most popular safety \n3 - Every 0-65.536\n4 - Start and Finish port");
-            type = Convert.ToInt32(Console.ReadLine());
-            if (type == 1)
+            repeat:
+            int selected_Type = Convert.ToInt32(Console.ReadLine());
+            switch (selected_Type)
             {
-                string[] text = System.IO.File.ReadAllText("port.txt").Split('\n');
-
-                foreach (var val in text)
-                {
-                    port_List.Add(Convert.ToInt32(val));
-                }
+                default:
+                    {
+                        Console.WriteLine("[!] Problem with selecting scanning type...");
+                        Console.WriteLine("[!] Try once again");
+                        goto repeat;
+                    }
+                case 1:
+                    {
+                        type = types.portsFromTxt;
+                    }break;
+                case 2:
+                    {
+                        type = types.usefulPorts;
+                    }break;
+                case 3:
+                    {
+                        type = types.everyPorts;
+                    }
+                    break;
+                case 4:
+                    {
+                        type = types.portsStartFinish;
+                    }break;
             }
-            else if (type == 2)
+            switch (type)
             {
-                port_List.Add(21);
-                port_List.Add(22);
-                port_List.Add(23);
-                port_List.Add(25);
-                port_List.Add(53);
-                port_List.Add(80);
-                port_List.Add(110);
-                port_List.Add(111);
-                port_List.Add(135);
-                port_List.Add(139);
-                port_List.Add(143);
-                port_List.Add(443);
-                port_List.Add(445);
-                port_List.Add(993);
-                port_List.Add(995);
-                port_List.Add(1723);
-                port_List.Add(3306);
-                port_List.Add(3389);
-                port_List.Add(5900);
-                port_List.Add(8080);
-
-            }
-            else if (type == 3)
-            {
-                for(int z = 1; z <= 65536; z++)
+                case types.portsFromTxt:
                 {
-                    port_List.Add(z);
+                    string[] text = System.IO.File.ReadAllText("port.txt").Split('\n');
+
+                    foreach (var val in text)
+                    {
+                        port_List.Add(Convert.ToInt32(val));
+                    }
                 }
-            }
-            else if (type == 4)
-            {
-                Console.WriteLine($"[!] Write the start port");
-                start_Port = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine($"[!] Write the finish port");
-                finish_Port = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("");
+                    break;
+                case types.usefulPorts:
+                    {
+                        port_List.Add(21);
+                        port_List.Add(22);
+                        port_List.Add(23);
+                        port_List.Add(25);
+                        port_List.Add(53);
+                        port_List.Add(80);
+                        port_List.Add(110);
+                        port_List.Add(111);
+                        port_List.Add(135);
+                        port_List.Add(139);
+                        port_List.Add(143);
+                        port_List.Add(443);
+                        port_List.Add(445);
+                        port_List.Add(993);
+                        port_List.Add(995);
+                        port_List.Add(1723);
+                        port_List.Add(3306);
+                        port_List.Add(3389);
+                        port_List.Add(5900);
+                        port_List.Add(8080);
+                    }
+                    break;
+                case types.everyPorts:
+                    {
+                        for (int z = 1; z <= 65536; z++)
+                        {
+                            port_List.Add(z);
+                        }
+                    }
+                    break;
+                case types.portsStartFinish:
+                    {
+                        Console.WriteLine($"[!] Write the start port");
+                        start_Port = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine($"[!] Write the finish port");
+                        finish_Port = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("");
 
 
-                for (int s = start_Port; s <= finish_Port; s++)
-                {
-                    port_List.Add(s);
-                }
-
+                        for (int s = start_Port; s <= finish_Port; s++)
+                        {
+                            port_List.Add(s);
+                        }
+                    }
+                    break;
             }
             if (threads >= port_List.Count())
             {
