@@ -43,14 +43,18 @@ namespace port_scanner
 
         public static void Main(string[] args)
         {
+            Console.Title = "Port Scanner";
+            Console.WriteLine("\r\n.----.  .----. .----.  .---.     .----. .---.   .--.  .-. .-..-. .-..----..----. \r\n| {}  }/  {}  \\| {}  }{_   _}   { {__  /  ___} / {} \\ |  `| ||  `| || {_  | {}  }\r\n| .--' \\      /| .-. \\  | |     .-._} }\\     }/  /\\  \\| |\\  || |\\  || {__ | .-. \\\r\n`-'     `----' `-' `-'  `-'     `----'  `---' `-'  `-'`-' `-'`-' `-'`----'`-' `-'\r\n");
+            Console.WriteLine("Modern port scanner created by Radiv\ngithub.com/Radivv/port-scanner\n");
             UserInput();
-            Console.WriteLine("Start scanning");
+            Console.WriteLine("[~] Start scanning\n");
             while (last_Value < port_List.Count)
             {
                 ThreadingStart();
             }
             File.WriteAllLines("export.txt", output);
             Console.ReadKey();
+            Console.WriteLine("\n");
         }
 
         private static void UserInput()
@@ -104,6 +108,7 @@ namespace port_scanner
             }
             if (threads >= port_List.Count())
             {
+                Console.WriteLine("[!] The number of threads is greater than the number of ports, the maximum possible value has been set\n");
                 threads = port_List.Count();
             }
 
@@ -115,39 +120,13 @@ namespace port_scanner
             try
             {
                 Scan.Connect(ip, port);
-                Console.WriteLine($"[{ip}:{port}] | OPEN");
+                Console.WriteLine($"[~] OPEN | {ip}:{port}");
                 output.Add($"{ip}:{port}");
             }
             catch
             {
-                //Console.WriteLine($"[{ip}:{port}] | CLOSE");
+
             }
-
-
-            //if (type == "1")
-            //{
-            //    for (int s = 0; s <= 10000; s++)
-            //    {
-            //        Console.WriteLine($"Trying scan {IP}:{s}");
-            //        try
-            //        {
-            //            Scan.Connect(IP, s);
-            //            Console.WriteLine($"[{s}] | OPEN");
-            //        }
-            //        catch
-            //        {
-            //            Console.WriteLine($"[{s}] | CLOSED");
-            //        }
-            //    }
-            //}
         }
-
-        private static int[] Ports = new int[]
-        {
-            8080,
-            51372,
-            31146,
-            4145
-        };
     }
 }
