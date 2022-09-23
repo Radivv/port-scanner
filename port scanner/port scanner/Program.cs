@@ -12,7 +12,11 @@ namespace port_scanner
 {
     internal class Program
     {
-        private static string IP = "wp.pl";
+        private static string IP = "";
+
+        private static int start_Port = 0;
+
+        private static int finish_Port = 0;
 
         private static int type = 0;
 
@@ -24,7 +28,6 @@ namespace port_scanner
 
         private static List<string> output = new List<string>();
 
-
         public static void ThreadingStart()
         {
             for (int s = 0; s <= threads; s++) // multithreading
@@ -35,15 +38,14 @@ namespace port_scanner
                     Thread thr1 = new Thread(() => PortScan(IP, val));
                     thr1.Start();
                     last_Value++;
-                    Console.Title = $"Port Scanner Ip:{IP} Scaned: {last_Value}/{port_List.Count().ToString()}";
+                    Console.Title = $"[!] Port Scanner Ip:{IP} Scaned: {last_Value}/{port_List.Count().ToString()}";
                 }
-
             }
         }
 
         public static void Main(string[] args)
         {
-            Console.Title = "Port Scanner";
+            Console.Title = "[!] Port Scanner";
             Console.WriteLine("\r\n.----.  .----. .----.  .---.     .----. .---.   .--.  .-. .-..-. .-..----..----. \r\n| {}  }/  {}  \\| {}  }{_   _}   { {__  /  ___} / {} \\ |  `| ||  `| || {_  | {}  }\r\n| .--' \\      /| .-. \\  | |     .-._} }\\     }/  /\\  \\| |\\  || |\\  || {__ | .-. \\\r\n`-'     `----' `-' `-'  `-'     `----'  `---' `-'  `-'`-' `-'`-' `-'`----'`-' `-'\r\n");
             Console.WriteLine("Modern port scanner created by Radiv\ngithub.com/Radivv/port-scanner\n");
             UserInput();
@@ -64,7 +66,7 @@ namespace port_scanner
             Console.WriteLine("Threads:");
             threads = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Type of Ports:\n1 - Ports from port.txt \n2 - The most popular safety \n3 - Every 0-65.536\n");
+            Console.WriteLine("Type of Ports:\n1 - Ports from port.txt \n2 - The most popular safety \n3 - Every 0-65.536\n4 - Start and Finish port");
             type = Convert.ToInt32(Console.ReadLine());
             if (type == 1)
             {
@@ -106,12 +108,26 @@ namespace port_scanner
                     port_List.Add(z);
                 }
             }
+            else if (type == 4)
+            {
+                Console.WriteLine($"[!] Write the start port");
+                start_Port = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine($"[!] Write the finish port");
+                finish_Port = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("");
+
+
+                for (int s = start_Port; s <= finish_Port; s++)
+                {
+                    port_List.Add(s);
+                }
+
+            }
             if (threads >= port_List.Count())
             {
                 Console.WriteLine("[!] The number of threads is greater than the number of ports, the maximum possible value has been set\n");
                 threads = port_List.Count();
             }
-
         }
 
         public static void PortScan(string ip, int port)
@@ -120,7 +136,7 @@ namespace port_scanner
             try
             {
                 Scan.Connect(ip, port);
-                Console.WriteLine($"[~] OPEN | {ip}:{port}");
+                Console.WriteLine($"[~] Open | {ip}:{port}");
                 output.Add($"{ip}:{port}");
             }
             catch
