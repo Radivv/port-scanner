@@ -1,6 +1,6 @@
 
 # Port Scanner C#
-Modern port scanner.  Useful application to scan open port in specific ip. 
+Modern port scanner.  Useful application to scan open port in specific ip. With multithreading scanner is very fast.
 
 
 
