@@ -21,6 +21,12 @@ Modern port scanner.  Useful application to scan open port in specific ip. With 
 [4] Choosing start and finish port
 
 ```
+
+
+## Screenshots
+
+![App Screenshot](https://i.imgur.com/F5InHnP.png)
+
 ## Authors
 
 - [@Radivv](https://github.com/Radivv)
