@@ -1,6 +1,6 @@
 
 # Port Scanner C#
-Modern port scanner created by Radiv
+Modern port scanner.  Useful application to scan open port in specific ip. 
 
 
 
